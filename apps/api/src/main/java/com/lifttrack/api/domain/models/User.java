@@ -9,6 +9,19 @@ public record User(
         String password,
         String name,
         Instant createdAt,
-        Instant updatedAt
-) {
+        Instant updatedAt) {
+
+    public User create(String email, String password, String name) {
+        if (email == null || email.isBlank()) {
+            throw new IllegalArgumentException("Email cannot be null or blank");
+        }
+        if (password == null || password.isBlank()) {
+            throw new IllegalArgumentException("Password cannot be null or blank");
+        }
+        if (name == null || name.isBlank()) {
+            throw new IllegalArgumentException("Name cannot be null or blank");
+        }
+
+        return new User(null, email, password, name, null, null);
+    }
 }

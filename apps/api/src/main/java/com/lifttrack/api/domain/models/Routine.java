@@ -10,6 +10,16 @@ public record Routine(
         String description,
         boolean active,
         Instant createdAt,
-        Instant updatedAt
-) {
+        Instant updatedAt) {
+
+    public Routine create(UUID userUuid, String name, String description) {
+        if (userUuid == null) {
+            throw new IllegalArgumentException("User UUID cannot be null");
+        }
+        if (name == null || name.isBlank()) {
+            throw new IllegalArgumentException("Routine name cannot be null or blank");
+        }
+
+        return new Routine(null, userUuid, name, description, true, null, null);
+    }
 }

@@ -12,6 +12,17 @@ public record WorkoutSession(
         Instant startedAt,
         Instant finishedAt,
         String notes,
-        Instant createdAt
-) {
+        Instant createdAt) {
+
+    public WorkoutSession create(UUID userUuid, UUID routineDayUuid, LocalDate sessionDate, Instant startedAt,
+            Instant finishedAt, String notes) {
+        if (userUuid == null) {
+            throw new IllegalArgumentException("User UUID cannot be null");
+        }
+        if (sessionDate == null) {
+            throw new IllegalArgumentException("Session date cannot be null");
+        }
+
+        return new WorkoutSession(null, userUuid, routineDayUuid, sessionDate, startedAt, finishedAt, notes, null);
+    }
 }
