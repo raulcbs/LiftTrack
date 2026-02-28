@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "skills": {
+    "java-spring-boot": {
+      "source": "pluginagentmarketplace/custom-plugin-java",
+      "sourceType": "github",
+      "computedHash": "93e5a124d8d5f29e0b19692d431452f8b6c2a2e1c3e05c0f93f07fb2473ab32a"
+    }
+  }
+}
