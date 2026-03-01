@@ -1,0 +1,47 @@
+{
+  "Common": {
+    "unexpectedError": "An unexpected error occurred. Please try again."
+  },
+  "LoginPage": {
+    "title": "Welcome back",
+    "description": "Sign in to your LiftTrack account",
+    "emailLabel": "Email",
+    "emailPlaceholder": "you@example.com",
+    "passwordLabel": "Password",
+    "passwordPlaceholder": "Enter your password",
+    "submit": "Sign in",
+    "noAccount": "Don't have an account?",
+    "signUp": "Sign up"
+  },
+  "RegisterPage": {
+    "title": "Create an account",
+    "description": "Start tracking your workouts with LiftTrack",
+    "nameLabel": "Name",
+    "namePlaceholder": "Your name",
+    "emailLabel": "Email",
+    "emailPlaceholder": "you@example.com",
+    "passwordLabel": "Password",
+    "passwordPlaceholder": "Create a password",
+    "confirmPasswordLabel": "Confirm Password",
+    "confirmPasswordPlaceholder": "Confirm your password",
+    "passwordsMismatch": "Passwords do not match",
+    "submit": "Create account",
+    "hasAccount": "Already have an account?",
+    "signIn": "Sign in"
+  },
+  "AuthLayout": {
+    "appName": "LiftTrack",
+    "signOut": "Sign out"
+  },
+  "Dashboard": {
+    "title": "Dashboard",
+    "subtitle": "Welcome to LiftTrack. Start tracking your workouts.",
+    "workouts": "Workouts",
+    "exercises": "Exercises",
+    "personalRecords": "Personal Records"
+  },
+  "Metadata": {
+    "title": "LiftTrack",
+    "description": "Track your workouts, monitor progress, and crush your goals."
+  }
+}

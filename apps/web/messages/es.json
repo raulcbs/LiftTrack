@@ -1,0 +1,47 @@
+{
+  "Common": {
+    "unexpectedError": "Ha ocurrido un error inesperado. Por favor, intenta de nuevo."
+  },
+  "LoginPage": {
+    "title": "Bienvenido de nuevo",
+    "description": "Inicia sesion en tu cuenta de LiftTrack",
+    "emailLabel": "Correo electronico",
+    "emailPlaceholder": "tu@ejemplo.com",
+    "passwordLabel": "Contrasena",
+    "passwordPlaceholder": "Introduce tu contrasena",
+    "submit": "Iniciar sesion",
+    "noAccount": "No tienes una cuenta?",
+    "signUp": "Registrate"
+  },
+  "RegisterPage": {
+    "title": "Crear una cuenta",
+    "description": "Empieza a registrar tus entrenamientos con LiftTrack",
+    "nameLabel": "Nombre",
+    "namePlaceholder": "Tu nombre",
+    "emailLabel": "Correo electronico",
+    "emailPlaceholder": "tu@ejemplo.com",
+    "passwordLabel": "Contrasena",
+    "passwordPlaceholder": "Crea una contrasena",
+    "confirmPasswordLabel": "Confirmar contrasena",
+    "confirmPasswordPlaceholder": "Confirma tu contrasena",
+    "passwordsMismatch": "Las contrasenas no coinciden",
+    "submit": "Crear cuenta",
+    "hasAccount": "Ya tienes una cuenta?",
+    "signIn": "Iniciar sesion"
+  },
+  "AuthLayout": {
+    "appName": "LiftTrack",
+    "signOut": "Cerrar sesion"
+  },
+  "Dashboard": {
+    "title": "Panel",
+    "subtitle": "Bienvenido a LiftTrack. Empieza a registrar tus entrenamientos.",
+    "workouts": "Entrenamientos",
+    "exercises": "Ejercicios",
+    "personalRecords": "Records personales"
+  },
+  "Metadata": {
+    "title": "LiftTrack",
+    "description": "Registra tus entrenamientos, monitoriza tu progreso y alcanza tus objetivos."
+  }
+}
