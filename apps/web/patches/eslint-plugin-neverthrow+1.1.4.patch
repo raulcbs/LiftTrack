@@ -1,0 +1,26 @@
+diff --git a/node_modules/eslint-plugin-neverthrow/dist/src/rules/must-use-result.js b/node_modules/eslint-plugin-neverthrow/dist/src/rules/must-use-result.js
+index 9e8c550..adf1044 100644
+--- a/node_modules/eslint-plugin-neverthrow/dist/src/rules/must-use-result.js
++++ b/node_modules/eslint-plugin-neverthrow/dist/src/rules/must-use-result.js
+@@ -121,7 +121,7 @@ function processSelector(context, checker, parserServices, node, reportAs = node
+         return false;
+     }
+     const assignedTo = getAssignation(checker, parserServices, node);
+-    const currentScope = context.getScope();
++    const currentScope = (context.sourceCode ? context.sourceCode.getScope(node) : context.getScope());
+     // Check if is assigned
+     if (assignedTo) {
+         const variable = currentScope.set.get(assignedTo.name);
+@@ -151,9 +151,9 @@ const rule = {
+         type: 'problem',
+     },
+     create(context) {
+-        var _a;
+-        const parserServices = context.parserServices;
+-        const checker = (_a = parserServices === null || parserServices === void 0 ? void 0 : parserServices.program) === null || _a === void 0 ? void 0 : _a.getTypeChecker();
++        var _a, _b;
++        const parserServices = ((_a = context.sourceCode) === null || _a === void 0 ? void 0 : _a.parserServices) || context.parserServices;
++        const checker = (_b = parserServices === null || parserServices === void 0 ? void 0 : parserServices.program) === null || _b === void 0 ? void 0 : _b.getTypeChecker();
+         if (!checker || !parserServices) {
+             throw Error('types not available, maybe you need set the parser to @typescript-eslint/parser');
+         }
