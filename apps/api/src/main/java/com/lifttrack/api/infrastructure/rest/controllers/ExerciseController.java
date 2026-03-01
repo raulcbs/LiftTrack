@@ -10,6 +10,7 @@ import com.lifttrack.api.infrastructure.rest.dto.mapper.ExerciseResponseMapper;
 import com.lifttrack.api.infrastructure.rest.dto.request.CreateExerciseRequest;
 import com.lifttrack.api.infrastructure.rest.dto.response.ErrorResponse;
 import com.lifttrack.api.infrastructure.rest.dto.response.ExerciseResponse;
+import com.lifttrack.api.infrastructure.security.AuthenticatedUser;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -17,8 +18,11 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+
 import jakarta.validation.Valid;
+
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -46,13 +50,14 @@ public class ExerciseController {
     private final DeleteExerciseUseCase deleteExerciseUseCase;
 
     @PostMapping
-    @Operation(summary = "Create a new exercise", description = "Creates a new exercise associated with a muscle group")
+    @Operation(summary = "Create a new exercise", description = "Creates a new exercise associated with a muscle group for the authenticated user")
     @ApiResponse(responseCode = "201", description = "Exercise created successfully",
             content = @Content(schema = @Schema(implementation = ExerciseResponse.class)))
     @ApiResponse(responseCode = "400", description = "Invalid request body",
             content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
     public ResponseEntity<ExerciseResponse> create(@Valid @RequestBody CreateExerciseRequest request) {
-        var exercise = new Exercise(null, request.name(), request.muscleGroupUuid(), request.userUuid(), null);
+        UUID userUuid = AuthenticatedUser.getUuid();
+        var exercise = new Exercise(null, request.name(), request.muscleGroupUuid(), userUuid, null);
         var created = createExerciseUseCase.execute(exercise);
         return ResponseEntity.status(HttpStatus.CREATED).body(ExerciseResponseMapper.toResponse(created));
     }

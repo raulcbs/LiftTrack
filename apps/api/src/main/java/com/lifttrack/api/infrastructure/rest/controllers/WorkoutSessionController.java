@@ -10,6 +10,7 @@ import com.lifttrack.api.infrastructure.rest.dto.mapper.WorkoutSessionResponseMa
 import com.lifttrack.api.infrastructure.rest.dto.request.CreateWorkoutSessionRequest;
 import com.lifttrack.api.infrastructure.rest.dto.response.ErrorResponse;
 import com.lifttrack.api.infrastructure.rest.dto.response.WorkoutSessionResponse;
+import com.lifttrack.api.infrastructure.security.AuthenticatedUser;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -18,8 +19,11 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+
 import jakarta.validation.Valid;
+
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -36,7 +40,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/v1/users/{userUuid}/workout-sessions")
+@RequestMapping("/api/v1/workout-sessions")
 @RequiredArgsConstructor
 @Tag(name = "Workout Sessions", description = "Operations for managing workout sessions")
 public class WorkoutSessionController {
@@ -48,14 +52,13 @@ public class WorkoutSessionController {
     private final DeleteWorkoutSessionUseCase deleteWorkoutSessionUseCase;
 
     @PostMapping
-    @Operation(summary = "Create a new workout session", description = "Creates a new workout session for the specified user")
+    @Operation(summary = "Create a new workout session", description = "Creates a new workout session for the authenticated user")
     @ApiResponse(responseCode = "201", description = "Workout session created successfully",
             content = @Content(schema = @Schema(implementation = WorkoutSessionResponse.class)))
     @ApiResponse(responseCode = "400", description = "Invalid request body",
             content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
-    public ResponseEntity<WorkoutSessionResponse> create(
-            @PathVariable UUID userUuid,
-            @Valid @RequestBody CreateWorkoutSessionRequest request) {
+    public ResponseEntity<WorkoutSessionResponse> create(@Valid @RequestBody CreateWorkoutSessionRequest request) {
+        UUID userUuid = AuthenticatedUser.getUuid();
         var workoutSession = new WorkoutSession(null, userUuid, request.routineDayUuid(), request.sessionDate(),
                 request.startedAt(), request.finishedAt(), request.notes(), null);
         var created = createWorkoutSessionUseCase.execute(workoutSession);
@@ -63,15 +66,15 @@ public class WorkoutSessionController {
     }
 
     @GetMapping
-    @Operation(summary = "Get workout sessions for a user", description = "Returns all workout sessions for a user, optionally filtered by date range")
+    @Operation(summary = "Get workout sessions", description = "Returns all workout sessions for the authenticated user, optionally filtered by date range")
     @ApiResponse(responseCode = "200", description = "Workout sessions retrieved successfully",
             content = @Content(array = @ArraySchema(schema = @Schema(implementation = WorkoutSessionResponse.class))))
     public ResponseEntity<List<WorkoutSessionResponse>> getByUser(
-            @PathVariable UUID userUuid,
             @Parameter(description = "Start date for filtering (inclusive)", example = "2026-01-01")
             @RequestParam(required = false) LocalDate from,
             @Parameter(description = "End date for filtering (inclusive)", example = "2026-03-01")
             @RequestParam(required = false) LocalDate to) {
+        UUID userUuid = AuthenticatedUser.getUuid();
         List<WorkoutSession> sessions;
         if (from != null && to != null) {
             sessions = getWorkoutSessionsByUserAndDateRangeUseCase.execute(userUuid, from, to);

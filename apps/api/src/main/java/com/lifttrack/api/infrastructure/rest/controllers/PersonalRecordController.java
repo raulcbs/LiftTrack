@@ -11,6 +11,7 @@ import com.lifttrack.api.infrastructure.rest.dto.mapper.PersonalRecordResponseMa
 import com.lifttrack.api.infrastructure.rest.dto.request.CreatePersonalRecordRequest;
 import com.lifttrack.api.infrastructure.rest.dto.response.ErrorResponse;
 import com.lifttrack.api.infrastructure.rest.dto.response.PersonalRecordResponse;
+import com.lifttrack.api.infrastructure.security.AuthenticatedUser;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -19,8 +20,11 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+
 import jakarta.validation.Valid;
+
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -35,7 +39,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/v1/users/{userUuid}/personal-records")
+@RequestMapping("/api/v1/personal-records")
 @RequiredArgsConstructor
 @Tag(name = "Personal Records", description = "Operations for managing personal records")
 public class PersonalRecordController {
@@ -48,14 +52,13 @@ public class PersonalRecordController {
     private final DeletePersonalRecordUseCase deletePersonalRecordUseCase;
 
     @PostMapping
-    @Operation(summary = "Create a new personal record", description = "Records a new personal record for the specified user")
+    @Operation(summary = "Create a new personal record", description = "Records a new personal record for the authenticated user")
     @ApiResponse(responseCode = "201", description = "Personal record created successfully",
             content = @Content(schema = @Schema(implementation = PersonalRecordResponse.class)))
     @ApiResponse(responseCode = "400", description = "Invalid request body",
             content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
-    public ResponseEntity<PersonalRecordResponse> create(
-            @PathVariable UUID userUuid,
-            @Valid @RequestBody CreatePersonalRecordRequest request) {
+    public ResponseEntity<PersonalRecordResponse> create(@Valid @RequestBody CreatePersonalRecordRequest request) {
+        UUID userUuid = AuthenticatedUser.getUuid();
         var personalRecord = new PersonalRecord(null, userUuid, request.exerciseUuid(), request.recordType(),
                 request.weight(), request.reps(), request.achievedAt(), request.workoutSessionExerciseSetUuid(), null);
         var created = createPersonalRecordUseCase.execute(personalRecord);
@@ -63,19 +66,19 @@ public class PersonalRecordController {
     }
 
     @GetMapping
-    @Operation(summary = "Get personal records for a user",
+    @Operation(summary = "Get personal records",
             description = "Returns personal records filtered by optional exercise UUID and record type. "
                     + "If both exerciseUuid and recordType are provided, returns a single record. "
                     + "If only exerciseUuid is provided, returns all records for that exercise. "
-                    + "If neither is provided, returns all records for the user.")
+                    + "If neither is provided, returns all records for the authenticated user.")
     @ApiResponse(responseCode = "200", description = "Personal records retrieved successfully",
             content = @Content(array = @ArraySchema(schema = @Schema(implementation = PersonalRecordResponse.class))))
     @ApiResponse(responseCode = "404", description = "Personal record not found (when filtering by exercise and type)",
             content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
     public ResponseEntity<?> getByUser(
-            @PathVariable UUID userUuid,
             @Parameter(description = "Filter by exercise UUID") @RequestParam(required = false) UUID exerciseUuid,
             @Parameter(description = "Filter by record type (requires exerciseUuid)", example = "ONE_REP_MAX") @RequestParam(required = false) String recordType) {
+        UUID userUuid = AuthenticatedUser.getUuid();
         if (exerciseUuid != null && recordType != null) {
             return getPersonalRecordByUserExerciseAndTypeUseCase.execute(userUuid, exerciseUuid, recordType)
                     .map(PersonalRecordResponseMapper::toResponse)
