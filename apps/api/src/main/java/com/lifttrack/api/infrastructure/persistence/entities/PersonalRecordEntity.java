@@ -14,6 +14,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.DynamicInsert;
 
 import java.math.BigDecimal;
 import java.time.Instant;
@@ -24,6 +25,7 @@ import java.util.UUID;
 @Table(name = "personal_records", uniqueConstraints = {
         @UniqueConstraint(columnNames = {"user_id", "exercise_id", "record_type"})
 })
+@DynamicInsert
 @Getter
 @Setter
 @NoArgsConstructor
@@ -34,7 +36,7 @@ public class PersonalRecordEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true, updatable = false)
+    @Column(unique = true, updatable = false)
     private UUID uuid;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -60,6 +62,6 @@ public class PersonalRecordEntity {
     @JoinColumn(name = "workout_session_exercise_set_id")
     private WorkoutSessionExerciseSetEntity workoutSessionExerciseSet;
 
-    @Column(name = "created_at", nullable = false, updatable = false)
+    @Column(name = "created_at", updatable = false)
     private Instant createdAt;
 }

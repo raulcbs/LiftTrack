@@ -13,6 +13,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.DynamicInsert;
 
 import java.time.Instant;
 import java.time.LocalDate;
@@ -20,6 +21,7 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "workout_sessions")
+@DynamicInsert
 @Getter
 @Setter
 @NoArgsConstructor
@@ -30,7 +32,7 @@ public class WorkoutSessionEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true, updatable = false)
+    @Column(unique = true, updatable = false)
     private UUID uuid;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -53,6 +55,6 @@ public class WorkoutSessionEntity {
     @Column(columnDefinition = "TEXT")
     private String notes;
 
-    @Column(name = "created_at", nullable = false, updatable = false)
+    @Column(name = "created_at", updatable = false)
     private Instant createdAt;
 }

@@ -10,12 +10,14 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.DynamicInsert;
 
 import java.time.Instant;
 import java.util.UUID;
 
 @Entity
 @Table(name = "muscle_groups")
+@DynamicInsert
 @Getter
 @Setter
 @NoArgsConstructor
@@ -26,12 +28,12 @@ public class MuscleGroupEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true, updatable = false)
+    @Column(unique = true, updatable = false)
     private UUID uuid;
 
     @Column(nullable = false, unique = true, length = 50)
     private String name;
 
-    @Column(name = "created_at", nullable = false, updatable = false)
+    @Column(name = "created_at", updatable = false)
     private Instant createdAt;
 }
