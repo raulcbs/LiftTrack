@@ -4,11 +4,11 @@ on:
   push:
     branches: [main]
     paths:
-      - 'apps/web/**'
+      - "apps/web/**"
   pull_request:
     branches: [main]
     paths:
-      - 'apps/web/**'
+      - "apps/web/**"
 
 jobs:
   build:
@@ -23,8 +23,8 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          cache: 'npm'
+          node-version: "24"
+          cache: "npm"
           cache-dependency-path: apps/web/package-lock.json
 
       - name: Install dependencies
