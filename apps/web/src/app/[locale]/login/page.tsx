@@ -54,7 +54,6 @@ export default function LoginPage() {
           <Card.Description>{t("description")}</Card.Description>
         </Card.Header>
         <Card.Content>
-          <form onSubmit={(e) => {}}></form>
           <Form onSubmit={handleSubmit} className="space-y-4">
             {error && (
               <Alert status="danger">
