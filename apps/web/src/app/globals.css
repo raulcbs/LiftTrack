@@ -1,108 +1,84 @@
 @import "tailwindcss";
+@import "@heroui/styles";
 
-/* ── Light theme (default) ── */
-:root {
-  --background: 0 0% 100%;
-  --foreground: 0 0% 9%;
+:root,
+.light,
+.default,
+[data-theme="light"],
+[data-theme="default"] {
+  /* Theme Colors (Light Mode) */
+  --accent: oklch(80.99% 0.2142 151.77);
+  --accent-foreground: oklch(15% 0.0300 151.77);
+  --background: oklch(97.02% 0.0023 151.77);
+  --border: oklch(90.00% 0.0023 151.77);
+  --danger: oklch(65.32% 0.2339 13.49);
+  --danger-foreground: oklch(99.11% 0 0);
+  --default: oklch(94.00% 0.0023 151.77);
+  --default-foreground: oklch(21.03% 0.0059 151.77);
+  --field-background: oklch(100.00% 0.0011 151.77);
+  --field-foreground: oklch(21.03% 0.0023 151.77);
+  --field-placeholder: oklch(55.17% 0.0046 151.77);
+  --focus: oklch(80.99% 0.2142 151.77);
+  --foreground: oklch(21.03% 0.0023 151.77);
+  --muted: oklch(55.17% 0.0046 151.77);
+  --overlay: oklch(100.00% 0.0007 151.77);
+  --overlay-foreground: oklch(21.03% 0.0023 151.77);
+  --scrollbar: oklch(87.10% 0.0023 151.77);
+  --segment: oklch(100.00% 0.0023 151.77);
+  --segment-foreground: oklch(21.03% 0.0023 151.77);
+  --separator: oklch(92.00% 0.0023 151.77);
+  --success: oklch(73.29% 0.1944 138.56);
+  --success-foreground: oklch(21.03% 0.0059 138.56);
+  --surface: oklch(100.00% 0.0011 151.77);
+  --surface-foreground: oklch(21.03% 0.0023 151.77);
+  --surface-secondary: oklch(95.24% 0.0018 151.77);
+  --surface-secondary-foreground: oklch(21.03% 0.0023 151.77);
+  --surface-tertiary: oklch(93.73% 0.0018 151.77);
+  --surface-tertiary-foreground: oklch(21.03% 0.0023 151.77);
+  --warning: oklch(78.19% 0.1592 60.08);
+  --warning-foreground: oklch(21.03% 0.0059 60.08);
 
-  --card: 0 0% 100%;
-  --card-foreground: 0 0% 9%;
+  /* Border Radius */
+  --radius: 0.25rem;
+  --field-radius: 0.25rem;
 
-  --muted: 0 0% 96%;
-  --muted-foreground: 0 0% 45%;
-
-  --border: 0 0% 90%;
-  --input: 0 0% 90%;
-  --ring: 0 0% 9%;
-
-  --primary: 0 0% 9%;
-  --primary-foreground: 0 0% 98%;
-
-  --destructive: 0 84% 60%;
-  --destructive-foreground: 0 0% 98%;
-
-  --accent: 0 0% 96%;
-  --accent-foreground: 0 0% 9%;
-
-  --success: 142 71% 45%;
-  --success-foreground: 0 0% 98%;
-
-  --radius: 0.5rem;
+  /* Font Family */
+  /* Make sure to load Geist font in your app */
+  --font-sans: var(--font-geist);
 }
 
-/* ── Dark theme (system preference) ── */
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: 0 0% 4%;
-    --foreground: 0 0% 98%;
-
-    --card: 0 0% 7%;
-    --card-foreground: 0 0% 98%;
-
-    --muted: 0 0% 15%;
-    --muted-foreground: 0 0% 64%;
-
-    --border: 0 0% 18%;
-    --input: 0 0% 18%;
-    --ring: 0 0% 83%;
-
-    --primary: 0 0% 98%;
-    --primary-foreground: 0 0% 9%;
-
-    --destructive: 0 62% 50%;
-    --destructive-foreground: 0 0% 98%;
-
-    --accent: 0 0% 15%;
-    --accent-foreground: 0 0% 98%;
-
-    --success: 142 71% 45%;
-    --success-foreground: 0 0% 98%;
-  }
-}
-
-/* ── Register CSS variables as Tailwind theme tokens ── */
-@theme inline {
-  --color-background: hsl(var(--background));
-  --color-foreground: hsl(var(--foreground));
-
-  --color-card: hsl(var(--card));
-  --color-card-foreground: hsl(var(--card-foreground));
-
-  --color-muted: hsl(var(--muted));
-  --color-muted-foreground: hsl(var(--muted-foreground));
-
-  --color-border: hsl(var(--border));
-  --color-input: hsl(var(--input));
-  --color-ring: hsl(var(--ring));
-
-  --color-primary: hsl(var(--primary));
-  --color-primary-foreground: hsl(var(--primary-foreground));
-
-  --color-destructive: hsl(var(--destructive));
-  --color-destructive-foreground: hsl(var(--destructive-foreground));
-
-  --color-accent: hsl(var(--accent));
-  --color-accent-foreground: hsl(var(--accent-foreground));
-
-  --color-success: hsl(var(--success));
-  --color-success-foreground: hsl(var(--success-foreground));
-
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: var(--radius);
-  --radius-lg: calc(var(--radius) + 4px);
-  --radius-xl: calc(var(--radius) + 8px);
-}
-
-/* ── Base styles ── */
-body {
-  background-color: hsl(var(--background));
-  color: hsl(var(--foreground));
-  font-family: var(--font-sans), system-ui, sans-serif;
-}
-
-* {
-  border-color: hsl(var(--border));
+.dark,
+[data-theme="dark"] {
+  color-scheme: dark;
+  /* Theme Colors (Dark Mode) */
+  --accent: oklch(80.99% 0.2142 151.77);
+  --accent-foreground: oklch(15% 0.0300 151.77);
+  --background: oklch(12.00% 0.0023 151.77);
+  --border: oklch(28.00% 0.0023 151.77);
+  --danger: oklch(59.40% 0.1976 12.38);
+  --danger-foreground: oklch(99.11% 0 0);
+  --default: oklch(27.40% 0.0023 151.77);
+  --default-foreground: oklch(99.11% 0 0);
+  --field-background: oklch(21.03% 0.0046 151.77);
+  --field-foreground: oklch(99.11% 0.0023 151.77);
+  --field-placeholder: oklch(70.50% 0.0046 151.77);
+  --focus: oklch(80.99% 0.2142 151.77);
+  --foreground: oklch(99.11% 0.0023 151.77);
+  --muted: oklch(70.50% 0.0046 151.77);
+  --overlay: oklch(21.03% 0.0046 151.77);
+  --overlay-foreground: oklch(99.11% 0.0023 151.77);
+  --scrollbar: oklch(70.50% 0.0023 151.77);
+  --segment: oklch(39.64% 0.0023 151.77);
+  --segment-foreground: oklch(99.11% 0.0023 151.77);
+  --separator: oklch(25.00% 0.0023 151.77);
+  --success: oklch(73.29% 0.1944 138.56);
+  --success-foreground: oklch(21.03% 0.0059 138.56);
+  --surface: oklch(21.03% 0.0046 151.77);
+  --surface-foreground: oklch(99.11% 0.0023 151.77);
+  --surface-secondary: oklch(25.70% 0.0034 151.77);
+  --surface-secondary-foreground: oklch(99.11% 0.0023 151.77);
+  --surface-tertiary: oklch(27.21% 0.0034 151.77);
+  --surface-tertiary-foreground: oklch(99.11% 0.0023 151.77);
+  --warning: oklch(82.03% 0.1394 64.09);
+  --warning-foreground: oklch(21.03% 0.0059 64.09);
 }
